@@ -56,10 +56,3 @@ export class ApiCalcController {
     }
   }
 }
-
-// if (typeof param1 !== 'string' || typeof param2 !== 'string') {
-//     throw new HttpException(
-//       'Parameters must be of type string',
-//       HttpStatus.BAD_REQUEST,
-//     );
-//   }
