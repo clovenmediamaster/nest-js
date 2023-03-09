@@ -8,33 +8,33 @@ export class CalcController {
 
   @Get('addition/:param1/:param2?')
   async addition(
-    @Param('param1') param1: string,
-    @Param('param2') param2?: string,
-  ): Promise<string> {
+    @Param() params: { param1: string; param2?: string },
+  ): Promise<number> {
+    const { param1, param2 } = params;
     return await this.apiService.addition(param1, param2);
   }
 
   @Get('subtract/:param1/:param2?')
   async subtract(
-    @Param('param1') param1: number,
-    @Param('param2') param2?: number,
+    @Param() params: { param1: number; param2?: number },
   ): Promise<number> {
+    const { param1, param2 } = params;
     return await this.apiService.subtract(param1, param2);
   }
 
   @Get('multiply/:param1/:param2?')
   async multiply(
-    @Param('param1') param1: number,
-    @Param('param2') param2?: number,
+    @Param() params: { param1: number; param2?: number },
   ): Promise<number> {
+    const { param1, param2 } = params;
     return await this.apiService.multiply(param1, param2);
   }
 
   @Get('divide/:param1/:param2?')
   async divide(
-    @Param('param1') param1: number,
-    @Param('param2') param2?: number,
+    @Param() params: { param1: number; param2?: number },
   ): Promise<number> {
+    const { param1, param2 } = params;
     return await this.apiService.divide(param1, param2);
   }
 }
