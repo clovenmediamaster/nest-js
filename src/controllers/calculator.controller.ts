@@ -1,5 +1,4 @@
 import { ApiCalcController } from 'src/modules/calculator/calculator.api.service';
-import { calcData } from 'src/controllers/dto/calculator.dto';
 
 import { Controller, Get, Param } from '@nestjs/common';
 
@@ -7,35 +6,35 @@ import { Controller, Get, Param } from '@nestjs/common';
 export class CalcController {
   constructor(private apiService: ApiCalcController) {}
 
-  @Get('addition/:param1/:param2')
-  addition(
+  @Get('addition/:param1/:param2?')
+  async addition(
     @Param('param1') param1: string,
     @Param('param2') param2?: string,
-  ): calcData {
-    return this.apiService.addition(param1, param2);
+  ): Promise<string> {
+    return await this.apiService.addition(param1, param2);
   }
 
-  @Get('subtract/:param1/:param2')
-  subtract(
+  @Get('subtract/:param1/:param2?')
+  async subtract(
     @Param('param1') param1: number,
     @Param('param2') param2?: number,
-  ): calcData {
-    return this.apiService.subtract(param1, param2);
+  ): Promise<number> {
+    return await this.apiService.subtract(param1, param2);
   }
 
-  @Get('multiply/:param1/:param2')
-  multiply(
+  @Get('multiply/:param1/:param2?')
+  async multiply(
     @Param('param1') param1: number,
     @Param('param2') param2?: number,
-  ): calcData {
-    return this.apiService.multiply(param1, param2);
+  ): Promise<number> {
+    return await this.apiService.multiply(param1, param2);
   }
 
   @Get('divide/:param1/:param2?')
-  divide(
+  async divide(
     @Param('param1') param1: number,
     @Param('param2') param2?: number,
-  ): calcData {
-    return this.apiService.divide(param1, param2);
+  ): Promise<number> {
+    return await this.apiService.divide(param1, param2);
   }
 }
