@@ -5,9 +5,6 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Calc } from './modules/calculator/calculator.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import * as redis from 'redis';
-
-const redisClient = redis.createClient();
 
 @Module({
   imports: [
