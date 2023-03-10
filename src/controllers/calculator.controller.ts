@@ -8,7 +8,7 @@ export class CalcController {
 
   @Get('addition/:param1/:param2?')
   async addition(
-    @Param() params: { param1: string; param2?: string },
+    @Param() params: { param1: number; param2?: number },
   ): Promise<number> {
     const { param1, param2 } = params;
     return await this.apiService.addition(param1, param2);

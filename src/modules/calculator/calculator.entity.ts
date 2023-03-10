@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
 
 @Entity()
+@Index(['param1', 'param2', 'result'], { unique: true })
 export class Calc {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,7 +12,6 @@ export class Calc {
   @Column()
   param2: number;
 
-  @Index({ unique: true })
   @Column()
   result: number;
 

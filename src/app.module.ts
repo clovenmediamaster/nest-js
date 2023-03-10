@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-// import { DataSource } from 'typeorm';
 import { CalcModule } from './modules/calculator/calculator.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Calc } from './modules/calculator/calculator.entity';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import * as redis from 'redis';
+
+const redisClient = redis.createClient();
 
 @Module({
   imports: [
@@ -19,6 +22,15 @@ import { Calc } from './modules/calculator/calculator.entity';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    ClientsModule.register([
+      {
+        name: 'REDIS_CLIENT',
+        transport: Transport.REDIS as any,
+        options: {
+          url: 'redis://localhost:6379',
+        },
+      },
+    ]),
     CalcModule,
   ],
   controllers: [AppController],
