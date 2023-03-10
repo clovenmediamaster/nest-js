@@ -15,47 +15,65 @@ export class ApiCalcController {
     private calcRepo: Repository<Calc>,
   ) {}
 
+  private async getCachedOrNewCalculation(
+    param1: number,
+    param2: number,
+    result: number,
+    redisClient: Redis.Redis,
+    calcRepo: Repository<Calc>,
+  ) {
+    const redisKey = `addition: ${param1}:${param2}:${result}`;
+    const cachedResult = await redisClient.get(redisKey);
+    if (cachedResult !== null) return JSON.parse(cachedResult);
+
+    const calc = await calcRepo.findOne({
+      where: { param1, param2, result },
+    });
+
+    if (calc) {
+      await redisClient.set(redisKey, JSON.stringify(calc));
+      return calc;
+    }
+    const newCalc = await calcRepo.save(checkResult(result, param1, param2));
+
+    await redisClient.set(redisKey, JSON.stringify(newCalc));
+    return newCalc;
+  }
+
   public async addition(param1: number, param2: number) {
     validateParams(param1, param2);
     const result = Number(param1) + Number(param2);
-
-    const redisKey = `addition: ${param1}:${param2}:${result}`;
-    const cachedResult = await this.redisClient.get(redisKey);
-    if (cachedResult !== null) return JSON.parse(cachedResult);
-
-    const calc = await this.calcRepo.findOne({
-      where: { param1, param2, result },
-    });
-    if (calc) {
-      await this.redisClient.set(redisKey, JSON.stringify(calc));
-      return calc;
-    }
-    const newCalc = await this.calcRepo.save(
-      checkResult(result, param1, param2),
+    return await this.getCachedOrNewCalculation(
+      param1,
+      param2,
+      result,
+      this.redisClient,
+      this.calcRepo,
     );
-
-    await this.redisClient.set(redisKey, JSON.stringify(newCalc));
-    return newCalc;
   }
 
   public async subtract(param1: number, param2: number) {
     validateParams(param1, param2);
     const result = param1 - param2;
-    const calc = await this.calcRepo.findOne({
-      where: { param1, param2, result },
-    });
-    if (calc) return calc;
-    return await this.calcRepo.save(checkResult(result, param1, param2));
+    return await this.getCachedOrNewCalculation(
+      param1,
+      param2,
+      result,
+      this.redisClient,
+      this.calcRepo,
+    );
   }
 
   public async multiply(param1: number, param2: number) {
     validateParams(param1, param2);
     const result = param1 * param2;
-    const calc = await this.calcRepo.findOne({
-      where: { param1, param2, result },
-    });
-    if (calc) return calc;
-    return await this.calcRepo.save(checkResult(result, param1, param2));
+    return await this.getCachedOrNewCalculation(
+      param1,
+      param2,
+      result,
+      this.redisClient,
+      this.calcRepo,
+    );
   }
 
   public async divide(param1: number, param2: number) {
@@ -67,11 +85,13 @@ export class ApiCalcController {
       );
     } else {
       const result = param1 / param2;
-      const calc = await this.calcRepo.findOne({
-        where: { param1, param2, result },
-      });
-      if (calc) return calc;
-      return await this.calcRepo.save(checkResult(result, param1, param2));
+      return await this.getCachedOrNewCalculation(
+        param1,
+        param2,
+        result,
+        this.redisClient,
+        this.calcRepo,
+      );
     }
   }
 }
