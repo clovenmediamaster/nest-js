@@ -11,7 +11,6 @@ export function validateParams(param1: any, param2: any) {
   param2 = parseInt(param2);
   const { error } = paramsSchema.validate({ param1, param2 });
   if (error || param2 === undefined) {
-    console.log(param2);
     throw new HttpException(
       'Please check both values. They must be numbers',
       HttpStatus.BAD_REQUEST,

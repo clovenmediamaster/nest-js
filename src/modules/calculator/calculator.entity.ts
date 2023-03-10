@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
 
 @Entity()
 export class Calc {
@@ -11,6 +11,7 @@ export class Calc {
   @Column()
   param2: number;
 
+  @Index({ unique: true })
   @Column()
   result: number;
 
