@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApiCalcController } from './calculator.api.service';
+import { ApiCalcController } from './calculator.api.service'; // TODO: rename to service
 import { CalcController } from 'src/controllers/calculator.controller';
 import { Calc } from './calculator.entity';
 

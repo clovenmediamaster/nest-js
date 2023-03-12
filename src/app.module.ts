@@ -5,23 +5,25 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Calc } from './modules/calculator/calculator.entity';
+import {MysqlConfig} from "./configs/dev.config";
+import {TypeOrmModuleOptions} from "@nestjs/typeorm";
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '111111',
-      database: 'calc',
-      entities: [Calc],
-      synchronize: true,
-      autoLoadEntities: true,
-    }),
+    TypeOrmModule.forRoot(MysqlConfig as TypeOrmModuleOptions),
     CalcModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  async onModuleInit() {
+    // initialisation
+  }
+  // TODO: read docs about module functions
+  async onModuleDestroy() {
+
+  }
+}
+
+//

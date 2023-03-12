@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-@Entity()
+// TODO: expand properties in decorators
+@Entity('')
 export class Calc {
   @PrimaryGeneratedColumn()
   id: number;
