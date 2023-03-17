@@ -7,14 +7,14 @@ export class CalculatorAppService {
   constructor(private mainService: CalculatorMainService) {}
 
   public async calculate(
-    operation: 'addition' | 'subtract' | 'multiply' | 'divide',
+    operation: string,
     param1: number,
     param2: number,
     forceRefresh = false,
-  ): Promise<number> {
-    let result: number;
+  ) {
+    let result: any;
 
-    const data: any = await this.mainService.getData(
+    const data = await this.mainService.getData(
       { param1, param2, operation },
       forceRefresh,
     );
