@@ -1,10 +1,20 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
+import { createLogger, Logger, transports } from 'winston';
 import { CalculatorMainService } from './calculator.main.service';
 
 @Injectable()
 export class CalculatorAppService {
-  constructor(private mainService: CalculatorMainService) {}
+  private logger: Logger;
+  constructor(private mainService: CalculatorMainService) {
+    this.logger = createLogger({
+      transports: [
+        new transports.Console(),
+        new transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new transports.File({ filename: 'logs/combined.log' }),
+      ],
+    });
+  }
 
   public async calculate(
     operation: string,
@@ -20,7 +30,6 @@ export class CalculatorAppService {
     );
 
     result = data;
-    console.log(result);
 
     if (!result) {
       switch (operation) {
@@ -54,6 +63,7 @@ export class CalculatorAppService {
         }
       }
       this.mainService.setMysql(param1, param2, result, operation);
+      this.logger.info(`Result:${result} calculated successfully`);
     }
 
     return result;
