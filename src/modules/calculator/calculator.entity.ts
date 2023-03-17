@@ -20,4 +20,7 @@ export class Calc {
 
   @Column()
   status: string;
+
+  @Column()
+  operation: string;
 }

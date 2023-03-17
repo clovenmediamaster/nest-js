@@ -1,12 +1,12 @@
-FROM nest
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
+version: '3'
+services:
+  mysql:
+    image: "mysql:5.7"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: application_production
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+  redis:
+    image: "redis:4.0.10"
+    ports:
+    - "10695:10695"
