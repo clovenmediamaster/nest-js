@@ -14,7 +14,8 @@ export class CalculatorMainService {
   ) {}
 
   public async getData({ param1, param2, operation }, forceRefresh: boolean) {
-    let data: unknown = { error: 'someError' }; //         const result = {}  as SomeEntity
+    let data: unknown = { error: 'someError' };
+
     if (!forceRefresh) {
       const redisKey = `${param1}:${param2}:${operation}`;
       const redisData = await this.redisClient.get(redisKey);
@@ -27,9 +28,10 @@ export class CalculatorMainService {
         } catch (err) {
           console.log(err.message);
         }
+      } else {
+        data = redisData;
       }
     }
-
     return data;
   }
 

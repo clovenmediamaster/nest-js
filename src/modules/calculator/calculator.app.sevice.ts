@@ -14,12 +14,13 @@ export class CalculatorAppService {
   ): Promise<number> {
     let result: number;
 
-    const data: any = this.mainService.getData(
+    const data: any = await this.mainService.getData(
       { param1, param2, operation },
       forceRefresh,
     );
 
-    result = data.result;
+    result = data;
+    console.log(result);
 
     if (!result) {
       switch (operation) {
@@ -36,6 +37,12 @@ export class CalculatorAppService {
           break;
         }
         case 'divide': {
+          if (param2 == 0) {
+            throw new HttpException(
+              'Cannot divide by zero',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
           result = param1 / param2;
           break;
         }
