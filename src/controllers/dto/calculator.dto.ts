@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-
+// instead on mumber
 export class CalcDto {
   @IsString()
   operation: 'addition' | 'subtract' | 'multiply' | 'divide';

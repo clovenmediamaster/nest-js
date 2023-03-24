@@ -5,7 +5,7 @@ export const MysqlConfig = {
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: '111111',
+  password: 'my-secret-pw',
   database: 'calc',
   entities: [Calc],
   synchronize: true,

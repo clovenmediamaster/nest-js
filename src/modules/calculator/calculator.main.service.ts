@@ -2,29 +2,21 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as Redis from 'ioredis';
 import { Repository } from 'typeorm';
-import { createLogger, Logger, transports } from 'winston';
+import { getLogger } from '../../helpers/logger';
 import { Calc } from './calculator.entity';
 
 @Injectable()
 export class CalculatorMainService {
-  private logger: Logger;
+  private logger = getLogger();
 
   constructor(
     @InjectRepository(Calc)
     private calcRepo: Repository<Calc>,
     @Inject('REDIS_CLIENT') private readonly redisClient: Redis.Redis,
-  ) {
-    this.logger = createLogger({
-      transports: [
-        new transports.Console(),
-        new transports.File({ filename: 'logs/error.log', level: 'error' }),
-        new transports.File({ filename: 'logs/combined.log' }),
-      ],
-    });
-  }
+  ) {}
 
   public async getData({ param1, param2, operation }, forceRefresh: boolean) {
-    let data: unknown = { error: 'someError' };
+    let data: any = { error: 'someError' };
 
     if (!forceRefresh) {
       const redisKey = `${param1}:${param2}:${operation}`;
@@ -39,16 +31,26 @@ export class CalculatorMainService {
           this.logger.error(err.message);
         }
       } else {
-        data = redisData;
+        data = JSON.parse(redisData);
       }
+    } else {
+      try {
+        data = await this.calcRepo.findOne({
+          where: { param1, param2, operation },
+        });
+      } catch (err) {
+        this.logger.error(err.message);
+      }
+      const redisKey = `${param1}:${param2}:${operation}`;
+      await this.redisClient.set(redisKey, data);
     }
 
-    this.logger.info(`Received data successfully`);
+    this.logger.debug(`Received data successfully`);
 
     return data;
   }
 
-  public async setMysql(
+  public async setDate(
     param1: number,
     param2: number,
     result: number,
@@ -63,7 +65,7 @@ export class CalculatorMainService {
     calc.operation = operation;
 
     try {
-      await this.calcRepo.save(calc);
+      await this.calcRepo.save(calc); // add number code
 
       const redisKey = `${param1}:${param2}:${operation}`;
       const redisValue = JSON.stringify({ param1, param2, result, operation });
@@ -71,7 +73,7 @@ export class CalculatorMainService {
 
       this.logger.info('Data saved successfully');
     } catch (err) {
-      this.logger.error(err.message);
+      this.logger.error(err.message); //fix message
     }
   }
 }

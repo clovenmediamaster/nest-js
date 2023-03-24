@@ -1,4 +1,4 @@
-import { CalcApiService } from 'src/modules/calculator/calculator.api.service';
+import { CalcApiService } from '../modules/calculator/calculator.api.service';
 import { CalcDto } from './dto/calculator.dto';
 import { Controller, Get, Param } from '@nestjs/common';
 
@@ -8,7 +8,6 @@ export class CalcController {
 
   @Get('/:operation/:param1/:param2')
   async operate(@Param() params: CalcDto): Promise<number> {
-    // Unknown -> CalcRto
     return await this.apiService.execute(params);
   }
 }
