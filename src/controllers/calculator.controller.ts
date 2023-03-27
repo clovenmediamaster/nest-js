@@ -11,11 +11,6 @@ export class CalcController {
   async operate(@Param() params: CalcDto): Promise<number> {
     return await this.apiService.execute(params);
   }
-
-  @Get('/metrics')
-  getMetrics() {
-    return getMetrics();
-  }
 }
 
 // sum(http_requests_total) by (method, route)
