@@ -1,123 +1,66 @@
-// import { HttpException, HttpStatus } from '@nestjs/common';
-// import { CalculatorMainService } from 'src/modules/calculator/calculator.main.service';
-// import { CalculatorAppService } from 'src/modules/calculator/calculator.app.sevice';
-
-// describe('CalculatorAppService', () => {
-//   let calculatorAppService: CalculatorAppService;
-//   let mainService: CalculatorMainService;
-
-//   beforeEach(() => {
-//     calculatorAppService = new CalculatorAppService(mainService);
-//   });
-
-//   describe('calculate', () => {
-//     it('should return correct result for addition', async () => {
-//       const result = await calculatorAppService.calculate('addition', 2, 3);
-//       expect(result).toBe(5);
-//     });
-
-//     it('should return correct result for subtraction', async () => {
-//       const result = await calculatorAppService.calculate('subtract', 5, 3);
-//       expect(result).toBe(2);
-//     });
-
-//     it('should return correct result for multiplication', async () => {
-//       const result = await calculatorAppService.calculate('multiply', 2, 3);
-//       expect(result).toBe(6);
-//     });
-
-//     it('should return correct result for division', async () => {
-//       const result = await calculatorAppService.calculate('divide', 10, 2);
-//       expect(result).toBe(5);
-//     });
-
-//     it('should throw error when dividing by zero', async () => {
-//       await expect(
-//         calculatorAppService.calculate('divide', 10, 0),
-//       ).rejects.toThrow(
-//         new HttpException('Cannot divide by zero', HttpStatus.BAD_REQUEST),
-//       );
-//     });
-
-//     it('should throw error for invalid operation', async () => {
-//       await expect(
-//         calculatorAppService.calculate('invalid', 2, 3),
-//       ).rejects.toThrow(
-//         new HttpException('Invalid operation: invalid', HttpStatus.BAD_REQUEST),
-//       );
-//     });
-//     // it('should throw error for invalid input values', async () => {
-//     //   await expect(
-//     //     calculatorAppService.calculate('addition', 2, 'a'),
-//     //   ).rejects.toThrow(
-//     //     new HttpException('Invalid input values', HttpStatus.BAD_REQUEST),
-//     //   );
-//     // });
-
-//     // it('should return correct result for large numbers', async () => {
-//     //   const result = await calculatorAppService.calculate(
-//     //     'multiply',
-//     //     123456789,
-//     //     987654321,
-//     //   );
-//     //   expect(result).toBe(121932631137021009);
-//     // });
-
-//     it('should return correct result for negative numbers', async () => {
-//       const result = await calculatorAppService.calculate('addition', -2, 3);
-//       expect(result).toBe(1);
-//     });
-//   });
-// });
-
-//
-//
-//
-//
-//
-
 import { Test, TestingModule } from '@nestjs/testing';
 import { CalcController } from '../calculator.controller';
 import { CalcApiService } from '../../modules/calculator/calculator.api.service';
 
 describe('CalcController', () => {
+  // Оголошуємо змінні, які будуть використовуватися в тестах
   let controller: CalcController;
   let service: CalcApiService;
 
   beforeEach(async () => {
+    // Створюємо тестовий модуль NestJS
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [CalcController],
+      controllers: [CalcController], // Реєструємо контролер
       providers: [
         {
           provide: CalcApiService,
           useValue: {
-            execute: jest.fn(),
+            execute: jest.fn(), // Замінюємо реальний метод execute на фіктивний
           },
         },
       ],
-    }).compile();
+    }).compile(); //модуль стає готовим до запуску тестів
 
+    // Отримуємо екземпляри контролера та сервісу з тестового модуля
     controller = module.get<CalcController>(CalcController);
     service = module.get<CalcApiService>(CalcApiService);
   });
 
+  // Група тестів для методу operate
   describe('operate', () => {
+    afterEach(() => {
+      jest.clearAllMocks(); // clear data
+    });
+
     it('should return the result of executing the addition operation with the provided parameters', async () => {
+      // Визначаємо очікуваний результат виконання методу execute
       const expectedResult = 10;
+      // Замінюємо реальний метод execute на фіктивний і повертаємо очікуваний результат
       jest.spyOn(service, 'execute').mockResolvedValue(expectedResult);
 
+      // Визначаємо параметри операції
       const operation = 'addition';
       const param1 = '5';
       const param2 = '5';
 
+      // Викликаємо метод operate контролера з заданими параметрами і отримуємо результат
       const result = await controller.operate({ operation, param1, param2 });
 
+      // Перевіряємо, що результат виконання методу відповідає очікуваному
       expect(result).toBe(expectedResult);
+      // Перевіряємо, що метод execute був викликаний з правильними аргументами
       expect(service.execute).toHaveBeenCalledWith({
         operation,
         param1,
         param2,
       });
     });
-  });
+  }, 5); // кількість повторень = 5;
 });
+
+//повторити кількість, need reset spy after
+// afterEach(() => {
+//   jest.clearAllMocks();
+// });
+
+// spy.mockClear()

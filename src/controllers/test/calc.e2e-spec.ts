@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { CalcApiService } from 'src/modules/calculator/calculator.api.service';
+import { CalcApiService } from '../../modules/calculator/calculator.api.service';
 import { CalcController } from '../calculator.controller';
-import { CalculatorAppService } from 'src/modules/calculator/calculator.app.sevice';
+import { CalculatorAppService } from '../../modules/calculator/calculator.app.sevice';
 import { BadRequestException, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 
@@ -34,6 +34,8 @@ describe('CalcController (E2E)', () => {
       const param2 = '3';
       const expectedResult = 2;
       jest.spyOn(apiService, 'execute').mockResolvedValueOnce(expectedResult);
+
+      console.log('check');
 
       const response = await request(app.getHttpServer()).get(
         `/calc/${operation}/${param1}/${param2}`,

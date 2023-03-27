@@ -14,4 +14,12 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  onModuleInit() {
+    console.log(`The module has been initialized.`);
+  }
+
+  onModuleDestroy() {
+    console.log(`The module is being destroyed.`);
+  }
+}
