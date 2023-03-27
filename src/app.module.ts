@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MysqlConfig } from './configs/dev.config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { register } from 'prom-client';
 
 @Module({
   imports: [
@@ -12,7 +13,13 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
     CalcModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'Prometheus',
+      useValue: register,
+    },
+  ],
 })
 export class AppModule {
   onModuleInit() {

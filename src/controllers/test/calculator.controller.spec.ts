@@ -55,12 +55,5 @@ describe('CalcController', () => {
         param2,
       });
     });
-  }, 5); // кількість повторень = 5;
+  }); // кількість повторень = 5;
 });
-
-//повторити кількість, need reset spy after
-// afterEach(() => {
-//   jest.clearAllMocks();
-// });
-
-// spy.mockClear()

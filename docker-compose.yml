@@ -1,12 +1,22 @@
 version: '3'
 services:
   mysql:
-    image: "mysql:5.7"
+    image: 'mysql:5.7'
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: application_production
-    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    command: '--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci'
   redis:
-    image: "redis:4.0.10"
+    image: 'redis:4.0.10'
     ports:
-    - "10695:10695"
+      - '10695:10695'
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - '9090:9090'
+  grafana:
+    image: grafana/grafana
+    ports:
+      - '3000:3000'
