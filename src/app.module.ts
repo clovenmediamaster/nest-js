@@ -1,11 +1,32 @@
 import { Module } from '@nestjs/common';
+import { CalcModule } from './modules/calculator/calculator.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CalcController } from './calc/calculator.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MysqlConfig } from './configs/dev.config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { register } from 'prom-client';
 
 @Module({
-  imports: [],
-  controllers: [AppController, CalcController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot(MysqlConfig as TypeOrmModuleOptions),
+    CalcModule,
+  ],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: 'Prometheus',
+      useValue: register,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  onModuleInit() {
+    console.log(`The module has been initialized.`);
+  }
+
+  onModuleDestroy() {
+    console.log(`The module is being destroyed.`);
+  }
+}
