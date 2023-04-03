@@ -32,4 +32,3 @@ export const metricsMiddleware = (req, res, next) => {
 export const getMetrics = () => {
   return register.metrics();
 };
-

@@ -14,5 +14,3 @@ import { RedisModule } from '../../redis/redis';
   providers: [CalcApiService, CalculatorAppService, CalculatorMainService],
 })
 export class CalcModule {}
-//onModuleInit
-//https://docs.nestjs.com/fundamentals/lifecycle-events
