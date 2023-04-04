@@ -11,4 +11,4 @@ import { User } from './register.entity';
   controllers: [RegisterController],
   providers: [RegisterService],
 })
-export class UserModule {}
+export class RegisterModule {}

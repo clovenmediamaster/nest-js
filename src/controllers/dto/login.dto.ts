@@ -4,7 +4,7 @@ import { User } from '../../modules/register/register.entity';
 export class LoginResDto {
   @IsNotEmpty()
   @IsString()
-  token: string;
+  access_token: string;
 
   user: User;
 }

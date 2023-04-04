@@ -28,7 +28,6 @@ export class RegisterService {
     user.firstName = createUserDto.firstName;
     user.email = createUserDto.email;
     user.password = hashedPassword;
-    user.role = createUserDto.role || 'user';
 
     try {
       return await this.userRepository.save(user);

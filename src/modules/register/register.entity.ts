@@ -1,3 +1,4 @@
+import { Role } from 'src/role/role.enum';
 import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
 
 @Entity()
@@ -12,9 +13,6 @@ export class User {
   @Column({ nullable: false })
   firstName: string;
 
-  @Column({ nullable: false, default: 'user' })
-  role: string;
-
   @Column({ nullable: true })
   userName: string;
 
@@ -23,4 +21,7 @@ export class User {
 
   @Column({ nullable: false })
   password: string;
+
+  @Column({ type: 'json', nullable: true })
+  roles: Role[];
 }

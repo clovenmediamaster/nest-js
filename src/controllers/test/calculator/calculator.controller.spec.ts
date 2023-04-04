@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CalcController } from '../calculator.controller';
-import { CalcApiService } from '../../modules/calculator/calculator.api.service';
+import { CalcController } from '../../../controllers/calculator.controller'; 
+import { CalcApiService } from '../../../modules/calculator/calculator.api.service'; 
 
 describe('CalcController', () => {
   // Оголошуємо змінні, які будуть використовуватися в тестах

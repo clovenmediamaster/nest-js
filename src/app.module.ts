@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MysqlConfig } from './configs/dev.config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { register } from 'prom-client';
-import { UserModule } from './modules/register/register.module';
+import { RegisterModule } from './modules/register/register.module';
 import { LoginModule } from './modules/login/login.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constant';
@@ -16,7 +16,7 @@ import { UpdateUserModule } from './modules/updateUser/updateUser.module';
   imports: [
     TypeOrmModule.forRoot(MysqlConfig as TypeOrmModuleOptions),
     CalcModule,
-    UserModule,
+    RegisterModule,
     LoginModule,
     UpdateUserModule,
     JwtModule.register({
