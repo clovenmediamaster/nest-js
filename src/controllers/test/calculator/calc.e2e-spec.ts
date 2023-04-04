@@ -1,13 +1,14 @@
 import { Test } from '@nestjs/testing';
-import { CalcApiService } from '../../modules/calculator/calculator.api.service';
-import { CalcController } from '../calculator.controller';
-import { CalculatorAppService } from '../../modules/calculator/calculator.app.sevice';
+import { CalcApiService } from '../../../modules/calculator/calculator.api.service';
+import { CalcController } from '../../calculator.controller';
+import { CalculatorAppService } from '../../../modules/calculator/calculator.app.sevice';
 import { BadRequestException, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 
 describe('CalcController (E2E)', () => {
   let app: INestApplication;
   let apiService: CalcApiService;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let appService: CalculatorAppService;
 
   beforeAll(async () => {

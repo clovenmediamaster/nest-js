@@ -1,19 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../user/user.entity';
-import { UpdateUserDto } from './dto';
+import { User } from '../register/register.entity';
+import { userDto } from '../../controllers/dto/register.dto';
 import { hash } from 'bcryptjs';
 import { pick } from 'lodash';
 
 @Injectable()
-export class updateUserService {
+export class UpdateUserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async updateUser(id: string, updateUserDto: userDto): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
     const saltRounds = 10;
 
@@ -25,11 +25,7 @@ export class updateUserService {
       'firstName',
       'lastName',
       'email',
-      'address',
-      'city',
-      'country',
-      'postalCode',
-      'about',
+      'userName',
     ]);
 
     if (updateUserDto.password) {

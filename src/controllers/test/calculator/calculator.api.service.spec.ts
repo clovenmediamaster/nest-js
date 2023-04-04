@@ -1,7 +1,7 @@
-import { CalcDto } from '../../controllers/dto/calculator.dto';
+import { CalcDto } from '../../dto/calculator.dto';
 import { BadRequestException } from '@nestjs/common';
-import { CalculatorAppService } from './calculator.app.sevice';
-import { CalcApiService } from './calculator.api.service';
+import { CalculatorAppService } from '../../../modules/calculator/calculator.app.sevice';
+import { CalcApiService } from '../../../modules/calculator/calculator.api.service';
 
 describe('CalcApiService', () => {
   // описуємо групу тестів для класу CalcApiService

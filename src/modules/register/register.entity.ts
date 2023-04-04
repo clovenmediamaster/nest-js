@@ -15,26 +15,11 @@ export class User {
   @Column({ nullable: false, default: 'user' })
   role: string;
 
-  @Column()
+  @Column({ nullable: true })
   userName: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
-
-  // @Column()
-  // address: string;
-
-  // @Column()
-  // city: string;
-
-  // @Column()
-  // country: string;
-
-  // @Column()
-  // postalCode: string;
-
-  // @Column()
-  // about: string;
 
   @Column({ nullable: false })
   password: string;

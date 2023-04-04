@@ -2,17 +2,17 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { hash } from 'bcryptjs';
-import { CreateUserDto } from './dto';
-import { User } from './user.entity';
+import { userDto } from '../../controllers/dto/register.dto';
+import { User } from './register.entity';
 
 @Injectable()
-export class UserService {
+export class RegisterService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: userDto): Promise<User> {
     const saltRounds = 10;
     const hashedPassword = await hash(createUserDto.password, saltRounds);
 

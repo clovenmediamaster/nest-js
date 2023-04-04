@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty } from 'class-validator';
-import { User } from 'src/modules/user/user.entity';
+import { User } from '../../modules/register/register.entity';
 
 export class LoginResDto {
   @IsNotEmpty()

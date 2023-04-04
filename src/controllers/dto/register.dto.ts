@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, IsEmail, MinLength } from 'class-validator';
 
-export class CreateUserDto {
+export class userDto {
   @IsNotEmpty()
   @IsString()
   firstName: string;
@@ -22,19 +22,4 @@ export class CreateUserDto {
 
   @IsString()
   lastName: string;
-
-  // @IsString()
-  // address: string;
-
-  // @IsString()
-  // city: string;
-
-  // @IsString()
-  // country: string;
-
-  // @IsString()
-  // postalCode: string;
-
-  // @IsString()
-  // about: string;
 }

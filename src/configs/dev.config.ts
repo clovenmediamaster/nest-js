@@ -1,5 +1,5 @@
 import { Calc } from '../modules/calculator/calculator.entity';
-import { User } from 'src/modules/user/user.entity';
+import { User } from '../modules/register/register.entity';
 
 export const MysqlConfig = {
   type: 'mysql',
@@ -9,6 +9,6 @@ export const MysqlConfig = {
   password: 'root',
   database: 'calc',
   entities: [Calc, User],
-  synchronize: false,
+  synchronize: true,
   autoLoadEntities: true,
 };
