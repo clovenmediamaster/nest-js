@@ -9,6 +9,6 @@ export const MysqlConfig = {
   password: 'root',
   database: 'calc',
   entities: [Calc, User],
-  synchronize: true,
+  synchronize: false,
   autoLoadEntities: true,
 };

@@ -11,7 +11,7 @@ async function bootstrap() {
   // Call onModuleInit() when the app has finished bootstrapping
   await app.init();
 
-  await app.listen(3001);
+  await app.listen(3002);
 }
 
 bootstrap();

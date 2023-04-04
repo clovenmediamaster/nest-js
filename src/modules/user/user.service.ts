@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { hash } from 'bcryptjs';
@@ -16,11 +16,25 @@ export class UserService {
     const saltRounds = 10;
     const hashedPassword = await hash(createUserDto.password, saltRounds);
 
+    const existingUser = await this.userRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('Email already exists');
+    }
+
     const user = new User();
-    user.name = createUserDto.name;
+    user.firstName = createUserDto.firstName;
     user.email = createUserDto.email;
     user.password = hashedPassword;
+    user.role = createUserDto.role || 'user';
 
-    return this.userRepository.save(user);
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Unable to create user');
+    }
   }
 }
